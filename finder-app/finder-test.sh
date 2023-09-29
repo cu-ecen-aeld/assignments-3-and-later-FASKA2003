@@ -49,8 +49,8 @@ for i in $(seq 1 "$NUMFILES"); do
 done
 
 # Execute finder.sh script using absolute path and redirect the output to a file
-OUTPUTSTRING=$(/usr/bin/finder.sh "$WRITEDIR" "$WRITESTR") 
-echo ${OUTPUTSTRING} > /tmp/assignment4-result.txt
+OUTPUTFILE=$(/usr/bin/finder.sh "$WRITEDIR" "$WRITESTR") 
+echo ${OUTPUTFILE} >> /tmp/assignment4-result.txt
 
 # Remove temporary directories
 rm -rf /tmp/aeld-data
