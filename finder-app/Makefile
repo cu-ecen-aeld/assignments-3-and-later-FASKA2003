@@ -9,6 +9,9 @@ SRCS = writer.c
 # Set object
 OBJS = writer.o
 
+#All utility
+all:$(TARGET)
+
 # Default build
 default: $(TARGET)
 
