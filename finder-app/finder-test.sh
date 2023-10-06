@@ -49,7 +49,7 @@ for i in $(seq 1 "$NUMFILES"); do
 done
 
 # Execute finder.sh script using absolute path and redirect the output to a file
-OUTPUTFILE=$(/usr/bin/finder.sh "$WRITEDIR" "$WRITESTR") 
+OUTPUTFILE=$(./finder.sh "$WRITEDIR" "$WRITESTR") 
 echo ${OUTPUTFILE} >> /tmp/assignment4-result.txt
 
 # Remove temporary directories
