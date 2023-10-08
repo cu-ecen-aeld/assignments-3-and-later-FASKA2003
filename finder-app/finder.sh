@@ -33,14 +33,15 @@ then
 	exit 1
 fi
 
-# Count files and count lines
-total_files=0
-total_lines=0
-for file in $filesdir/*
+
+files=$(find $filesdir -type f)
+x=$(ls $files | wc -l)
+
+for f in $files
 do
-	total_files=$((total_files+1))
-	total_lines=$((total_lines + $(grep -c "$searchstr" "$file")))
+    tmp=$(grep -c $searchstr $f)
+    y=$((y + tmp))
 done
 
-echo "The number of files are $total_files and the number of matching lines are $total_lines"
+echo  "The number of files are $x and the number of matching lines are $y"
 exit 0

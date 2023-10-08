@@ -9,7 +9,8 @@ NUMFILES=10
 WRITESTR=AELD_IS_FUN
 WRITEDIR=/tmp/aeld-data
 username=$(cat /etc/finder-app/conf/username.txt)
- 
+output_file_name="/tmp/assignment4-result.txt" 
+
 if [ $# -lt 3 ]; then
   echo "Using default value ${WRITESTR} for string to write"
   if [ $# -lt 1 ]; then
@@ -49,8 +50,8 @@ for i in $(seq 1 "$NUMFILES"); do
 done
 
 # Execute finder.sh script using absolute path and redirect the output to a file
-OUTPUTFILE=$(./finder.sh "$WRITEDIR" "$WRITESTR") 
-echo ${OUTPUTFILE} >> /tmp/assignment4-result.txt
+OUTPUTFILE=$(finder.sh "$WRITEDIR" "$WRITESTR") 
+echo ${OUTPUTFILE} > $output_file_name
 
 # Remove temporary directories
 rm -rf /tmp/aeld-data
