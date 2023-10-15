@@ -15,3 +15,4 @@ aesdsocket.o: aesdsocket.c
 
 clean:
 	rm -f *.o aesdsocket
+
