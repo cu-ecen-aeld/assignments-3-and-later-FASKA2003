@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <syslog.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 
 #define PORT 9000
 
@@ -52,28 +53,64 @@ int acceptConnection(int server_socket) {
     return client_socket;
 }
 
+void log_accepted_connection(int client_socket) {
+    struct sockaddr_in client_addr;
+    socklen_t client_addr_len = sizeof(client_addr);
+
+    if (getpeername(client_socket, (struct sockaddr *)&client_addr, &client_addr_len) == 0) {
+        char client_ip[INET_ADDRSTRLEN];
+        inet_ntop(AF_INET, &(client_addr.sin_addr), client_ip, INET_ADDRSTRLEN);
+
+        syslog(LOG_INFO, "Accepted connection from %s", client_ip);
+    } else {
+        perror("getpeername");
+    }
+}
+
 int main() {
-    int server_socket = createSocket();
-    if (server_socket < 0) {
-        return -1;
-    }
-
-    if (bindSocket(server_socket) < 0) {
-        close(server_socket);
-        return -1;
-    }
-
-    if (listenForConnections(server_socket) < 0) {
-        close(server_socket);
-        return -1;
-    }
-
-    int client_socket = acceptConnection(server_socket);
-    if (client_socket < 0) {
-        close(server_socket);
-        return -1;
-    }
-
+    openlog("aesdsocket", LOG_PID, LOG_DAEMON);
     
+    int server_socket, client_socket;
+    struct sockaddr_in server_addr, client_addr;
+    char buffer[1024];
+
+    // Create a socket
+    server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_socket == -1) {
+        perror("socket");
+        exit(EXIT_FAILURE);
+    }
+
+    // Bind the socket to a specific port
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+    server_addr.sin_port = htons(PORT);
+
+    if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr) == -1) {
+        perror("bind");
+        close(server_socket);
+        exit(EXIT_FAILURE);
+    }
+
+    // Listen for incoming connections
+    if (listen(server_socket, 5) == -1) {
+        perror("listen");
+        close(server_socket);
+        exit(EXIT_FAILURE);
+    }
+
+    // Accept a connection
+    client_socket = accept(server_socket, (struct sockaddr *)&client_addr, &client_addr_len);
+    if (client_socket == -1) {
+        perror("accept");
+        close(server_socket);
+        exit(EXIT_FAILURE);
+    }
+
+    log_accepted_connection(client_socket);
+
+
+    closelog();
+        
     return 0;
 }
