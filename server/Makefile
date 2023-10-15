@@ -7,7 +7,7 @@ CFLAGS = -g -Wall -Werror
 all: aesdsocket
 	@echo "build done!"
 
-aesdsocket: socket.o
+aesdsocket: aesdsocket.o
 	$(CC)gcc $(CFLAGS) aesdsocket.o -o aesdsocket
 
 aesdsocket.o: aesdsocket.c
