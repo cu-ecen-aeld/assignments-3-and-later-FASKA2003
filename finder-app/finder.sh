@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #author : AYOUB EL MAHFOUDI
 
@@ -14,6 +14,7 @@
 NUM_PARAMS=2
 filesdir="$1"
 searchstr="$2"
+y=0
 
 # Check for correct number of input parameters
 if [ $# -ne $NUM_PARAMS ]

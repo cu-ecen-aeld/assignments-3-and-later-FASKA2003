@@ -50,8 +50,8 @@ for i in $(seq 1 "$NUMFILES"); do
 done
 
 # Execute finder.sh script using absolute path and redirect the output to a file
-OUTPUTFILE=$(finder.sh "$WRITEDIR" "$WRITESTR") 
-echo ${OUTPUTFILE} > $output_file_name
+OUTPUTSTRING=$(finder.sh "$WRITEDIR" "$WRITESTR") 
+echo ${OUTPUTSTRING} > $output_file_name
 
 # Remove temporary directories
 rm -rf /tmp/aeld-data
